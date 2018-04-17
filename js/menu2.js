@@ -117,6 +117,18 @@
                 const link = this.boxes[i].DOM.link;
                 if (link) {
                     link.addEventListener('click', (ev) => {
+                        setTimeout(() => {
+                            if (scroll[i - 4]) {
+                                return;
+                            }
+                            let wrapper = document.querySelector(`#wrapper${arr[i-4]}`);
+                            scroll[i - 4] = new BScroll(wrapper, {
+                                scrollY: true,
+                                scrollX: false,
+                                click: true,
+                                bounce: false
+                            })
+                        }, 0);
                         ev.preventDefault();
                         if (this.isAnimating) return;
                         document.querySelector('.content--switch-current').classList.remove('content--switch-current');
@@ -154,7 +166,7 @@
             };
             DOM.grim.classList[action === 'open' ? 'add' : 'remove']('grim--open');
             const box = this.boxes[pos];
-            xbox[action === 'open' ? 'open' : 'close']().then(() => this[action === 'open' ? 'openBoxes' : 'closeBoxes'](pos + 1));
+            box[action === 'open' ? 'open' : 'close']().then(() => this[action === 'open' ? 'openBoxes' : 'closeBoxes'](pos + 1));
         }
     }
 
@@ -170,8 +182,20 @@
             close: document.querySelector('.menu-trigger--close')
         };
 
-        DOM.menuCtrls.open.addEventListener('click', () => DOM.menu.open());
+        DOM.menuCtrls.open.addEventListener('click', () => {
+            DOM.menu.open();
+        });
         DOM.menuCtrls.close.addEventListener('click', () => DOM.menu.close());
     });
+
+    let arr = [1, 2, 3, 4, 5, 6];
+    window.scroll = [];
+    wrapper = document.querySelector("#wrapper1");
+    scroll[0] = new BScroll(wrapper, {
+        scrollY: true,
+        scrollX: false,
+        click: true,
+        bounce: false
+    })
 }
 console.log('xsh');
