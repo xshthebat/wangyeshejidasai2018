@@ -126,7 +126,29 @@
                                 scrollY: true,
                                 scrollX: false,
                                 click: true,
-                                bounce: false
+                                bounce: false,
+                                probeType: 3,
+                                snap: {
+                                    loop: false,
+                                    threshold: 0.3,
+                                    speed: 400,
+                                    easing: {
+                                        style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                                        fn: function(t) {
+                                            return t * (2 - t)
+                                        }
+                                    }
+                                }
+                            })
+                            scroll[i - 4].on('scroll', function(x) {
+                                let bg = document.querySelector('#content-6');
+                                let body = document.body;
+                                if ((-x.y) < body.offsetHeight) {
+                                    bg.style.backgroundImage = 'url(img/xiandaixian.jpg)'
+                                }
+                                if ((-x.y) > body.offsetHeight && (-x.y) < 2 * body.offsetHeight) {
+                                    bg.style.backgroundImage = 'url(img/xiandaixian3.jpg)'
+                                }
                             })
                         }, 0);
                         ev.preventDefault();
